@@ -1,0 +1,83 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.palantir.docker" version "0.22.1"
+    id "com.palantir.docker-run" version "0.22.1"
+    id 'com.palantir.git-version' version '0.7.3'
+}
+
+group 'io.keepup.projects'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 15
+targetCompatibility = 15
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+ext {
+    set('tag', getTag())
+}
+
+configurations {
+    implementation {
+        exclude group: 'org.springframework', module: 'spring-webmvc'
+    }
+}
+
+dependencies {
+    implementation 'io.keepup.cms:core:2.0-SNAPSHOT'
+    implementation 'io.keepup.cms.rest:2.0-SNAPSHOT'
+    implementation 'io.keepup.cms.catalog:2.0-SNAPSHOT'
+    compile 'com.fasterxml.jackson.core:jackson-databind'
+    compile 'org.apache.commons:commons-lang3:3.12.0'
+    compile 'commons-io:commons-io:2.11.0'
+    compile 'org.hibernate:hibernate-core:5.5.3.Final'
+    compile 'org.apache.ignite:ignite-core:2.10.0'
+    compile 'org.apache.ignite:ignite-spring:2.10.0'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.liquibase:liquibase-core'
+    compile 'io.fastjson:boon:0.34'
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    compile 'io.r2dbc:r2dbc-h2:0.8.1.RELEASE'
+    compile 'javax.persistence:javax.persistence-api:2.2'
+    compile 'commons-net:commons-net:3.8.0'
+    // endregion
+
+    implementation 'org.apache.poi:poi:5.0.0'
+    implementation 'org.apache.poi:poi-ooxml:5.0.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+docker {
+    dependsOn build
+    name "docker:5000/keepup/${project.name}:${tag}"
+    files 'build/libs/keepup-application-1.0-SNAPSHOT.jar'
+    buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
+}
+
+dockerRun {
+    name "${project.name}"
+    image "docker:5000/keepup/${project.name}:${tag}"
+    ports '8080:8089'
+    clean true
+}
+
+def getTag() {
+    return versionDetails().branchName == null
+            ? version
+            : versionDetails().branchName.replace('/', '-')
+}
