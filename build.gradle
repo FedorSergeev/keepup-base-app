@@ -4,6 +4,9 @@ plugins {
     id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.71.4'
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.palantir.docker" version "0.22.1"
+//    id "com.palantir.docker-run" version "0.22.1"
+//    id 'com.palantir.git-version' version '0.7.3'
 }
 
 group 'io.keepup-projects'
@@ -65,6 +68,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+docker {
+    dependsOn build
+    name "docker:5000/keepup/${project.name}:1_0-SNAPSHOT"
+    files 'build/libs/keepup-base-app-1.0-SNAPSHOT.jar'
+    buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
 }
 
 task codeCoverageReport(type: JacocoReport) {
