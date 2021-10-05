@@ -5,9 +5,10 @@ spring:
 logging:
   level:
     root: INFO
+    io.keepup.cms.projects.rest: DEBUG
 keepup:
   paths:
-    static1: /app/static
+    static: /app/static
   plugins:
     catalog:
       enabled: true
