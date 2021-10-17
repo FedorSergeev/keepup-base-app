@@ -5,15 +5,10 @@ plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "com.palantir.docker" version "0.22.1"
-//    id "com.palantir.docker-run" version "0.22.1"
-//    id 'com.palantir.git-version' version '0.7.3'
 }
 
 group 'io.keepup-projects'
 version '1.0-SNAPSHOT'
-
-sourceCompatibility = 15
-targetCompatibility = 15
 
 repositories {
     mavenCentral()

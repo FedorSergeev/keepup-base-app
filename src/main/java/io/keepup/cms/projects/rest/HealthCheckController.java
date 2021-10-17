@@ -19,9 +19,20 @@ public class HealthCheckController {
 
     private final Log log = LogFactory.getLog(getClass());
 
+    /**
+     * This is an imitation of long process, will be used for load testing
+     *
+     * @return OK 200 or error message if there were problems with th thread
+     */
     @GetMapping
     public Mono<ResponseEntity<String>> health() {
         log.debug("Health check requested");
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+            return Mono.just(ResponseEntity.internalServerError().body(e.toString()));
+        }
         return Mono.just(ResponseEntity.ok("OK"));
     }
 }
