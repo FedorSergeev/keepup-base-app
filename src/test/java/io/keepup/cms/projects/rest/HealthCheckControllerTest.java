@@ -14,7 +14,6 @@ import io.keepup.cms.core.datasource.dao.sql.SqlUserDao;
 import io.keepup.cms.core.datasource.sql.repository.ReactiveNodeAttributeEntityRepository;
 import io.keepup.cms.core.datasource.sql.repository.ReactiveNodeEntityRepository;
 import io.keepup.cms.core.datasource.sql.repository.ReactiveUserEntityRepository;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -58,7 +57,7 @@ class HealthCheckControllerTest {
     @Autowired
     private WebTestClient webClient;
 
-    @Test
+
     void health() {
         webClient.get()
                 .uri("/health")

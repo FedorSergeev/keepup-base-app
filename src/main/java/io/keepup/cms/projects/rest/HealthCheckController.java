@@ -2,10 +2,12 @@ package io.keepup.cms.projects.rest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 /**
@@ -27,12 +29,16 @@ public class HealthCheckController {
     @GetMapping
     public Mono<ResponseEntity<String>> health() {
         log.debug("Health check requested");
-        try {
-            Thread.sleep(1000L);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-            return Mono.just(ResponseEntity.internalServerError().body(e.toString()));
-        }
-        return Mono.just(ResponseEntity.ok("OK"));
+        return getResponseEntityMono()
+                .map(ResponseEntity::ok);
+    }
+
+    @Nullable
+    private Mono<String> getResponseEntityMono() {
+        return WebClient.create("http://mock-server:8080/delay?seconds=1")
+                .get()
+                .retrieve()
+                .bodyToMono(String.class);
+
     }
 }
