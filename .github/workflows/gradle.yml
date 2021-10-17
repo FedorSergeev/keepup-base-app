@@ -74,5 +74,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: fsergeev/keepup-base-app:master-01
+          # todo set tag
+          tags: fsergeev/keepup-base-app:healthcheck-01
           build-args: JAR_FILE=build/libs/keepup-base-app-1.0-SNAPSHOT.jar

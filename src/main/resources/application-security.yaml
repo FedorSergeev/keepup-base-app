@@ -1,8 +1,8 @@
 keepup:
   security:
     enabled: true
-    path-matchers: /user,/content,/file
-    permitted-urls: /test
+    path-matchers: /user
+    permitted-urls: /health
     login-url: login
     logout-url: logout
 
