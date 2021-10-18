@@ -4,11 +4,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 
 /**
  * Simple controller with endpoint for controlling application health
@@ -35,10 +38,17 @@ public class HealthCheckController {
 
     @Nullable
     private Mono<String> getResponseEntityMono() {
-        return WebClient.create("http://mock-server:8080/delay?seconds=1")
+        ConnectionProvider connectionProvider = ConnectionProvider.builder("LoadTestingConnectionPool")
+                .maxConnections(10000)
+                .pendingAcquireMaxCount(10000)
+                .build();
+        ReactorClientHttpConnector clientHttpConnector = new ReactorClientHttpConnector(HttpClient.create(connectionProvider));
+        return WebClient.builder()
+                .baseUrl("http://192.168.10.147:30083/delay?seconds=1")
+                .clientConnector(clientHttpConnector)
+                .build()
                 .get()
                 .retrieve()
                 .bodyToMono(String.class);
-
     }
 }

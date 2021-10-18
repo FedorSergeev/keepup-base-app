@@ -33,6 +33,8 @@ dependencies {
     implementation 'io.keepup.cms:rest:2.0-SNAPSHOT'
     implementation 'io.keepup.cms:catalog:2.0-SNAPSHOT'
 
+    implementation 'org.postgresql:postgresql:42.2.24'
+
     // region implementation from keepup
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
