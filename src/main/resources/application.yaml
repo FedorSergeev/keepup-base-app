@@ -1,5 +1,5 @@
 spring:
-  profiles.active: dev,postgres,security
+  profiles.active: dev,postgres,security,redis
   main:
     allow-bean-definition-overriding: true
 logging:
