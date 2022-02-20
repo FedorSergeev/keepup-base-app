@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 15
+    - name: Set up JDK 17
       uses: actions/setup-java@v2
       with:
-        java-version: '15'
+        java-version: '17'
         distribution: 'adopt'
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -35,7 +35,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
     - uses: actions/upload-artifact@v1
       with:
-        name: keepup-base-app-1.0-SNAPSHOT.jar
+        name: keepup-base-app-1.0.jar
         path: build/libs/
 
   docker:
@@ -56,17 +56,17 @@ jobs:
 
       - uses: actions/download-artifact@v1
         with:
-          name: keepup-base-app-1.0-SNAPSHOT.jar
+          name: keepup-base-app-1.0.jar
           path: build/libs/
 
       - name: Download math result for job 1
         uses: actions/download-artifact@v2
         with:
-          name: keepup-base-app-1.0-SNAPSHOT.jar
+          name: keepup-base-app-1.0.jar
           path: build/libs/
       - shell: bash
         run: |
-          ls -la
+          ls -la build/libs
 
       - name: Build and push
         id: docker_build
@@ -76,4 +76,4 @@ jobs:
           push: true
           # todo set tag
           tags: fsergeev/keepup-base-app:healthcheck-01
-          build-args: JAR_FILE=build/libs/keepup-base-app-1.0-SNAPSHOT.jar
+          build-args: JAR_FILE=build/libs/keepup-base-app-1.0.jar

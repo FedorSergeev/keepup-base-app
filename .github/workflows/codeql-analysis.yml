@@ -48,7 +48,7 @@ jobs:
     - uses: actions/setup-java@v2
       with:
         distribution: 'adopt' # See 'Supported distributions' for available options
-        java-version: '15'
+        java-version: '17'
     - run: chmod +x gradlew
     - run: ./gradlew build -PnexusUser=${{ secrets.NEXUS_USER }} -PnexusPassword=${{ secrets.NEXUS_PASSWORD }}
       env:

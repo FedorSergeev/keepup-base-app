@@ -1,11 +1,19 @@
 spring:
   datasource:
     jdbc-url: "jdbc:h2:mem:/~/test;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;"
-    url: "mem:/~/test;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;"
+    url: "mem:/~/test;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;SCHEMA=KEEPUP;"
     driver-class-name: org.h2.Driver
+    driverClassName: org.h2.Driver
     username: sa
     password: ""
-    database-platform: org.hibernate.dialect.H2Dialect
+#    database-platform: org.hibernate.dialect.H2Dialect
+  r2dbc:
+    url: "r2dbc:h2:mem:default;DB_CLOSE_DELAY=-1;SCHEMA=KEEPUP;"
+    username: "sa"
+    password: ""
+  liquibase:
+    enabled: true
+    change-log: "classpath:db/changelog/db.changelog-master.yaml"
 
   h2:
   server:

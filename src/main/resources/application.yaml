@@ -1,14 +1,19 @@
 spring:
-  profiles.active: dev,postgres,security,redis
+  profiles.active: dev,security,h2
   main:
     allow-bean-definition-overriding: true
 logging:
   level:
     root: INFO
-    io.keepup.cms.projects.rest: DEBUG
+    io.keepup.cms: INFO
+
 keepup:
   paths:
-    static: /app/static
+    static: /Users/fedkapot/IdeaProjects/keepup-application/resources/
   plugins:
     catalog:
       enabled: true
+    adminui:
+      enabled: true
+  security:
+    csrf-enabled: false

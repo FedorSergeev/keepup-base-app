@@ -1,10 +1,10 @@
 spring:
   datasource:
-    jdbc-url: "jdbc:postgresql://postgresql:5432/KEEPUP_CLOUD_DB"
+    jdbc-url: "jdbc:postgresql://192.168.10.147:31332/KEEPUP_CLOUD_DB"
     driver-class-name: org.postgresql.Driver
     username: "KEEPUP_CLOUD_DB"
     password: "1234567890"
   r2dbc:
-    url: "r2dbc:postgresql://postgresql:5432/KEEPUP_CLOUD_DB"
+    url: "r2dbc:postgresql://192.168.10.147:31332/KEEPUP_CLOUD_DB"
     username: "KEEPUP_CLOUD_DB"
     password: "1234567890"
