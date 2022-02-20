@@ -1,0 +1,14 @@
+spring:
+  profiles.active: dev,h2,security
+  main:
+    allow-bean-definition-overriding: true
+logging:
+  level:
+    root: INFO
+    io.keepup.cms.projects.rest: DEBUG
+keepup:
+  paths:
+    static: /app/static
+  plugins:
+    catalog:
+      enabled: true

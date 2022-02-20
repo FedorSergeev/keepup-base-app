@@ -5,26 +5,14 @@ plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "com.palantir.docker" version "0.22.1"
-//    id "com.palantir.docker-run" version "0.22.1"
-//    id 'com.palantir.git-version' version '0.7.3'
 }
 
-group 'io.keepup-projects'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 15
-targetCompatibility = 15
+group 'io.keepup'
+version '1.0'
 
 repositories {
     mavenCentral()
     mavenLocal()
-    maven {
-        credentials {
-            username = System.getenv("MAVEN_USERNAME")
-            password = System.getenv("MAVEN_PASSWORD")
-        }
-        url 'http://nexus.trans-it.pro/nexus/content/repositories/transit-snapshot/'
-    }
 }
 
 configurations {
@@ -34,17 +22,21 @@ configurations {
 }
 
 dependencies {
-    implementation 'io.keepup.cms:core:2.0-SNAPSHOT'
-    implementation 'io.keepup.cms:rest:2.0-SNAPSHOT'
-    implementation 'io.keepup.cms:catalog:2.0-SNAPSHOT'
+    implementation 'ru.keepupproject:keepup-core:2.0.0-beta-1'
+    implementation 'ru.keepupproject:keepup-catalog:2.0.0-beta-1'
+    implementation 'ru.keepupproject:keepup-rest:2.0.0-beta-1'
+    implementation 'ru.keepupproject:keepup-admin-ui:2.0.0-beta-1'
+
+    implementation 'org.postgresql:postgresql:42.2.24'
+    implementation 'io.r2dbc:r2dbc-postgresql:0.8.10.RELEASE'
+
+    implementation 'io.r2dbc:r2dbc-h2:0.8.4.RELEASE'
 
     // region implementation from keepup
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'commons-io:commons-io:2.11.0'
-    implementation 'org.hibernate:hibernate-core:5.5.3.Final'
-    implementation 'org.apache.ignite:ignite-core:2.10.0'
-    implementation 'org.apache.ignite:ignite-spring:2.10.0'
+//    implementation 'org.hibernate:hibernate-core:5.5.3.Final'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -53,13 +45,13 @@ dependencies {
     implementation 'io.fastjson:boon:0.34'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    implementation 'io.r2dbc:r2dbc-h2:0.8.1.RELEASE'
     implementation 'javax.persistence:javax.persistence-api:2.2'
     implementation 'commons-net:commons-net:3.8.0'
     // endregion
 
     implementation 'org.apache.poi:poi:5.0.0'
     implementation 'org.apache.poi:poi-ooxml:5.0.0'
+    implementation 'org.springframework.data:spring-data-redis:2.6.1'
 
     testImplementation 'org.junit.platform:junit-platform-runner:1.7.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -75,8 +67,8 @@ test {
 
 docker {
     dependsOn build
-    name "docker:5000/keepup/${project.name}:1_0-SNAPSHOT"
-    files 'build/libs/keepup-base-app-1.0-SNAPSHOT.jar'
+    name "docker:5000/keepup/${project.name}:1_0"
+    files 'build/libs/keepup-base-app-1.0.jar'
     buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
 }
 

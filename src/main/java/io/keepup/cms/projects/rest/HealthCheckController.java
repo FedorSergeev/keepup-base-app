@@ -19,6 +19,11 @@ public class HealthCheckController {
 
     private final Log log = LogFactory.getLog(getClass());
 
+    /**
+     * Just a simple endpoint for checking whether application responses.
+     *
+     * @return OK 200
+     */
     @GetMapping
     public Mono<ResponseEntity<String>> health() {
         log.debug("Health check requested");

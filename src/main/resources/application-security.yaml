@@ -2,7 +2,7 @@ keepup:
   security:
     enabled: true
     path-matchers: /user
-    permitted-urls: /health
+    permitted-urls: /health,/load-testing,/load-testing/pretest
     login-url: login
     logout-url: logout
 
